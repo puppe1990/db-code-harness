@@ -18,7 +18,10 @@ function openDatabase(dbPath: string): Database.Database {
   }
 }
 
-export function fetchOpenCodeMessages(dbPath: string, sessionId: string): ChatMessage[] {
+export function fetchOpenCodeMessages(
+  dbPath: string,
+  sessionId: string,
+): ChatMessage[] {
   try {
     const db = openDatabase(dbPath)
     const rows = db

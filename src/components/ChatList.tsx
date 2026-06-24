@@ -7,8 +7,7 @@ import { ChatItem } from './ChatItem'
 
 const ALL_SOURCES: ChatSource[] = ['cursor', 'grok', 'codex', 'opencode']
 
-const CHIP_ACTIVE =
-  'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900'
+const CHIP_ACTIVE = 'bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900'
 const CHIP_INACTIVE =
   'bg-white text-zinc-600 border border-zinc-200 hover:text-zinc-900 hover:border-zinc-300 dark:bg-zinc-800 dark:text-zinc-400 dark:border-transparent dark:hover:text-zinc-200'
 
@@ -22,7 +21,10 @@ export function ChatList({ chats }: { chats: ChatSession[] }) {
   )
 
   const counts = useMemo(() => {
-    const map = Object.fromEntries(ALL_SOURCES.map((s) => [s, 0])) as Record<ChatSource, number>
+    const map = Object.fromEntries(ALL_SOURCES.map((s) => [s, 0])) as Record<
+      ChatSource,
+      number
+    >
     for (const c of chats) map[c.source]++
     return map
   }, [chats])
@@ -70,15 +72,14 @@ export function ChatList({ chats }: { chats: ChatSession[] }) {
 
       {hasActiveSearch && (
         <p className="text-xs text-zinc-500 mb-4">
-          {filtered.length} resultado{filtered.length !== 1 ? 's' : ''} para &ldquo;{query.trim()}&rdquo;
+          {filtered.length} resultado{filtered.length !== 1 ? 's' : ''} para &ldquo;
+          {query.trim()}&rdquo;
         </p>
       )}
 
       {filtered.length === 0 ? (
         <p className="text-zinc-500 text-center py-12">
-          {hasActiveSearch
-            ? 'Nenhum chat corresponde à busca.'
-            : 'No chats found'}
+          {hasActiveSearch ? 'Nenhum chat corresponde à busca.' : 'No chats found'}
         </p>
       ) : (
         <ul className="space-y-2">

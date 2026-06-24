@@ -48,7 +48,9 @@ function ChatDetailPage() {
           </div>
           <h1 className="text-xl font-semibold tracking-tight">{session.title}</h1>
           {session.cwd && (
-            <p className="text-sm text-[var(--sea-ink-soft)] mt-1 truncate">{session.cwd}</p>
+            <p className="text-sm text-[var(--sea-ink-soft)] mt-1 truncate">
+              {session.cwd}
+            </p>
           )}
           <p className="text-xs text-[var(--sea-ink-soft)] mt-2 opacity-80">
             {messages.length} mensagens

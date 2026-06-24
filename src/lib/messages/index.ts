@@ -1,4 +1,3 @@
-import path from 'node:path'
 import type { DataPaths } from '../config'
 import type { ChatDetail, ChatMessage, ChatSession } from '../types'
 import { fetchCodexMessages, findCodexRolloutById } from './codex'
@@ -23,7 +22,8 @@ async function loadMessages(
     case 'codex': {
       let rolloutPath = storagePath
       if (!rolloutPath.endsWith('.jsonl')) {
-        rolloutPath = (await findCodexRolloutById(paths.codexHome, session.id.slice(6))) ?? ''
+        rolloutPath =
+          (await findCodexRolloutById(paths.codexHome, session.id.slice(6))) ?? ''
       }
       return rolloutPath ? fetchCodexMessages(rolloutPath) : []
     }

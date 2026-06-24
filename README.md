@@ -1,5 +1,7 @@
 # AI Chats
 
+[![CI](https://github.com/puppe1990/db-code-harness/actions/workflows/ci.yml/badge.svg)](https://github.com/puppe1990/db-code-harness/actions/workflows/ci.yml)
+
 A local web app that aggregates coding-agent chat sessions from **Cursor**, **Grok**, **Codex**, and **OpenCode** into a single timeline sorted by most recent activity.
 
 Built with [TanStack Start](https://tanstack.com/start), React 19, Tailwind CSS, and Vitest.
@@ -16,12 +18,12 @@ Built with [TanStack Start](https://tanstack.com/start), React 19, Tailwind CSS,
 
 ## Supported data sources
 
-| Tool | Local path | Format |
-|------|------------|--------|
-| **Grok** | `~/.grok/sessions/**/summary.json` | JSON metadata + `chat_history.jsonl` |
-| **OpenCode** | `~/.local/share/opencode/opencode.db` | SQLite `session` table |
-| **Codex** | `~/.codex/session_index.jsonl` + `sessions/**` + `archived_sessions/**` | JSONL rollouts |
-| **Cursor** | `~/.cursor/chats/*/*/store.db` | SQLite `meta` + `blobs` |
+| Tool         | Local path                                                              | Format                               |
+| ------------ | ----------------------------------------------------------------------- | ------------------------------------ |
+| **Grok**     | `~/.grok/sessions/**/summary.json`                                      | JSON metadata + `chat_history.jsonl` |
+| **OpenCode** | `~/.local/share/opencode/opencode.db`                                   | SQLite `session` table               |
+| **Codex**    | `~/.codex/session_index.jsonl` + `sessions/**` + `archived_sessions/**` | JSONL rollouts                       |
+| **Cursor**   | `~/.cursor/chats/*/*/store.db`                                          | SQLite `meta` + `blobs`              |
 
 ## Requirements
 
@@ -42,13 +44,13 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start dev server on port 3000 |
-| `npm run build` | Production build |
-| `npm run preview` | Preview production build |
-| `npm test` | Run Vitest test suite |
-| `npm run test:watch` | Run tests in watch mode |
+| Command              | Description                   |
+| -------------------- | ----------------------------- |
+| `npm run dev`        | Start dev server on port 3000 |
+| `npm run build`      | Production build              |
+| `npm run preview`    | Preview production build      |
+| `npm test`           | Run Vitest test suite         |
+| `npm run test:watch` | Run tests in watch mode       |
 
 ## Configuration
 
@@ -90,6 +92,27 @@ src/
 │   └── filter-chats.ts
 ├── routes/         # / and /chat/$chatId
 └── server/         # TanStack Start server functions
+```
+
+## CI & pre-commit
+
+GitHub Actions runs on every push and PR:
+
+- Prettier check
+- ESLint
+- Vitest
+- Production build
+
+Local pre-commit hook (via Husky + lint-staged):
+
+- Formats staged files with Prettier
+- Runs ESLint with `--fix` on staged TypeScript
+- Runs the full test suite
+
+Install hooks after cloning:
+
+```bash
+npm install   # runs `husky` via the prepare script
 ```
 
 ## Development

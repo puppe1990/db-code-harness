@@ -30,7 +30,11 @@ export async function fetchGrokMessages(sessionDir: string): Promise<ChatMessage
         const row: GrokHistoryLine = JSON.parse(line)
         const role =
           row.role ??
-          (row.type === 'user' ? 'user' : row.type === 'assistant' ? 'assistant' : undefined)
+          (row.type === 'user'
+            ? 'user'
+            : row.type === 'assistant'
+              ? 'assistant'
+              : undefined)
         if (role !== 'user' && role !== 'assistant') continue
 
         const text = parseGrokContent(row.content)

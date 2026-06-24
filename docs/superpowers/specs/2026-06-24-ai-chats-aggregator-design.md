@@ -21,12 +21,12 @@ App local que agrega sessões de chat das 4 ferramentas e lista por `updatedAt` 
 
 ## Data Sources (descobertos no sistema do usuário)
 
-| Source   | Path | Formato | Campos principais |
-|----------|------|---------|-------------------|
-| **Grok** | `~/.grok/sessions/<encoded-cwd>/<session-id>/summary.json` | JSON | `updated_at`, `generated_title` / `session_summary`, `info.cwd`, `num_messages` |
-| **OpenCode** | `~/.local/share/opencode/opencode.db` | SQLite (`session` table) | `title`, `directory`, `time_updated` (ms), `model` |
-| **Codex** | `~/.codex/session_index.jsonl` + `~/.codex/sessions/**/rollout-*.jsonl` + `~/.codex/archived_sessions/` | JSONL | `thread_name`, `updated_at`, `id` |
-| **Cursor** | `~/.cursor/chats/<workspace-hash>/<chat-uuid>/store.db` | SQLite (`meta` key `0` = hex JSON) | `name`, `createdAt` (ms); `updatedAt` = `mtime` do `store.db` |
+| Source       | Path                                                                                                    | Formato                            | Campos principais                                                               |
+| ------------ | ------------------------------------------------------------------------------------------------------- | ---------------------------------- | ------------------------------------------------------------------------------- |
+| **Grok**     | `~/.grok/sessions/<encoded-cwd>/<session-id>/summary.json`                                              | JSON                               | `updated_at`, `generated_title` / `session_summary`, `info.cwd`, `num_messages` |
+| **OpenCode** | `~/.local/share/opencode/opencode.db`                                                                   | SQLite (`session` table)           | `title`, `directory`, `time_updated` (ms), `model`                              |
+| **Codex**    | `~/.codex/session_index.jsonl` + `~/.codex/sessions/**/rollout-*.jsonl` + `~/.codex/archived_sessions/` | JSONL                              | `thread_name`, `updated_at`, `id`                                               |
+| **Cursor**   | `~/.cursor/chats/<workspace-hash>/<chat-uuid>/store.db`                                                 | SQLite (`meta` key `0` = hex JSON) | `name`, `createdAt` (ms); `updatedAt` = `mtime` do `store.db`                   |
 
 ### Cursor — notas
 
@@ -47,12 +47,12 @@ App local que agrega sessões de chat das 4 ferramentas e lista por `updatedAt` 
 type ChatSource = 'cursor' | 'grok' | 'codex' | 'opencode'
 
 interface ChatSession {
-  id: string           // único por source (prefixo: "cursor:", "grok:", etc.)
+  id: string // único por source (prefixo: "cursor:", "grok:", etc.)
   source: ChatSource
   title: string
   cwd?: string
-  createdAt: string    // ISO 8601
-  updatedAt: string    // ISO 8601
+  createdAt: string // ISO 8601
+  updatedAt: string // ISO 8601
   messageCount?: number
   model?: string
 }
@@ -87,11 +87,11 @@ interface ChatSession {
 
 ### Alternativas consideradas
 
-| Abordagem | Prós | Contras |
-|-----------|------|---------|
+| Abordagem                              | Prós                                  | Contras                         |
+| -------------------------------------- | ------------------------------------- | ------------------------------- |
 | **A. Server functions + providers** ✅ | Simples, testável, sem API REST extra | Requer Node (ok para app local) |
-| B. CLI separado + JSON export | Desacoplado | Dois processos, UX pior |
-| C. Electron app | Acesso nativo a FS | Overkill para v1 |
+| B. CLI separado + JSON export          | Desacoplado                           | Dois processos, UX pior         |
+| C. Electron app                        | Acesso nativo a FS                    | Overkill para v1                |
 
 ## UI (v1)
 
