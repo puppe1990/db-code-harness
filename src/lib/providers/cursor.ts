@@ -1,0 +1,65 @@
+import fs from 'node:fs'
+import fsPromises from 'node:fs/promises'
+import path from 'node:path'
+import Database from 'better-sqlite3'
+import type { ChatSession } from '../types'
+
+interface CursorMeta {
+  agentId: string
+  name?: string
+  createdAt?: number
+}
+
+async function findStoreDbs(chatsDir: string): Promise<string[]> {
+  const results: string[] = []
+  try {
+    const workspaces = await fsPromises.readdir(chatsDir, { withFileTypes: true })
+    for (const ws of workspaces) {
+      if (!ws.isDirectory()) continue
+      const wsPath = path.join(chatsDir, ws.name)
+      const chats = await fsPromises.readdir(wsPath, { withFileTypes: true })
+      for (const chat of chats) {
+        if (!chat.isDirectory()) continue
+        const dbPath = path.join(wsPath, chat.name, 'store.db')
+        try {
+          await fsPromises.access(dbPath)
+          results.push(dbPath)
+        } catch {
+          // skip
+        }
+      }
+    }
+  } catch {
+    return []
+  }
+  return results
+}
+
+function parseStoreDb(dbPath: string): ChatSession | null {
+  try {
+    const db = new Database(dbPath, { readonly: true, fileMustExist: true })
+    const row = db.prepare("SELECT value FROM meta WHERE key = '0'").get() as
+      | { value: string }
+      | undefined
+    db.close()
+    if (!row) return null
+
+    const meta: CursorMeta = JSON.parse(Buffer.from(row.value, 'hex').toString('utf-8'))
+    const stat = fs.statSync(dbPath)
+
+    return {
+      id: `cursor:${meta.agentId}`,
+      source: 'cursor',
+      title: meta.name?.trim() || `Cursor ${meta.agentId.slice(0, 8)}`,
+      createdAt: new Date(meta.createdAt ?? 0).toISOString(),
+      updatedAt: new Date(stat.mtimeMs).toISOString(),
+    }
+  } catch {
+    return null
+  }
+}
+
+export async function fetchCursorChats(chatsDir: string): Promise<ChatSession[]> {
+  const dbs = await findStoreDbs(chatsDir)
+  return dbs.map(parseStoreDb).filter((s): s is ChatSession => s !== null)
+}
