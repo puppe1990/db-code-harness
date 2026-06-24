@@ -6,6 +6,7 @@ export interface DataPaths {
   grokHome: string
   codexHome: string
   opencodeDataDir: string
+  claudeHome: string
 }
 
 export function getDataPaths(): DataPaths {
@@ -16,5 +17,6 @@ export function getDataPaths(): DataPaths {
     codexHome: process.env.CODEX_HOME ?? path.join(home, '.codex'),
     opencodeDataDir:
       process.env.OPENCODE_DATA_DIR ?? path.join(home, '.local', 'share', 'opencode'),
+    claudeHome: process.env.CLAUDE_HOME ?? path.join(home, '.claude'),
   }
 }

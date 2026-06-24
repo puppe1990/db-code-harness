@@ -38,6 +38,17 @@ vi.mock('./providers/cursor', () => ({
     },
   ] satisfies ChatSession[]),
 }))
+vi.mock('./providers/claude', () => ({
+  fetchClaudeChats: vi.fn().mockResolvedValue([
+    {
+      id: 'claude:1',
+      source: 'claude',
+      title: 'Claude chat',
+      createdAt: '2026-06-24T07:00:00Z',
+      updatedAt: '2026-06-24T13:00:00Z',
+    },
+  ] satisfies ChatSession[]),
+}))
 
 describe('aggregateChats', () => {
   it('merges all providers and sorts by updatedAt desc', async () => {
@@ -46,8 +57,9 @@ describe('aggregateChats', () => {
       grokHome: '/g',
       codexHome: '/x',
       opencodeDataDir: '/o',
+      claudeHome: '/cl',
     })
-    expect(result).toHaveLength(3)
-    expect(result.map((s) => s.source)).toEqual(['codex', 'grok', 'cursor'])
+    expect(result).toHaveLength(4)
+    expect(result.map((s) => s.source)).toEqual(['codex', 'claude', 'grok', 'cursor'])
   })
 })

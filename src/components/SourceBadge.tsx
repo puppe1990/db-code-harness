@@ -9,6 +9,8 @@ const COLORS: Record<ChatSource, string> = {
     'bg-green-50 text-green-700 border-green-200 dark:bg-green-500/20 dark:text-green-300 dark:border-green-500/30',
   opencode:
     'bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-500/20 dark:text-purple-300 dark:border-purple-500/30',
+  claude:
+    'bg-amber-50 text-amber-800 border-amber-200 dark:bg-amber-500/20 dark:text-amber-200 dark:border-amber-500/30',
 }
 
 export function SourceBadge({ source }: { source: ChatSource }) {
