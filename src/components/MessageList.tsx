@@ -1,4 +1,5 @@
 import type { ChatMessage } from '../lib/types'
+import { FormattedDate } from './FormattedDate'
 
 const ROLE_STYLES: Record<ChatMessage['role'], string> = {
   user: 'bg-zinc-100 border-zinc-200 ml-8 dark:bg-zinc-800 dark:border-zinc-700',
@@ -34,9 +35,7 @@ export function MessageList({ messages }: { messages: ChatMessage[] }) {
           <p className="text-xs font-medium text-zinc-500 mb-1.5">
             {ROLE_LABELS[msg.role]}
             {msg.timestamp && (
-              <span className="ml-2 font-normal">
-                {new Date(msg.timestamp).toLocaleString('pt-BR')}
-              </span>
+              <FormattedDate iso={msg.timestamp} className="ml-2 font-normal" />
             )}
           </p>
           <p className="text-sm text-zinc-800 whitespace-pre-wrap break-words dark:text-zinc-200">

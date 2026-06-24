@@ -1,9 +1,10 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 
 type ThemeMode = 'light' | 'dark'
 
-function getInitialMode(): ThemeMode {
-  if (typeof window === 'undefined') return 'light'
+function readStoredMode(): ThemeMode {
   const stored = window.localStorage.getItem('theme')
   return stored === 'dark' ? 'dark' : 'light'
 }
@@ -16,11 +17,16 @@ function applyThemeMode(mode: ThemeMode) {
 }
 
 export default function ThemeToggle() {
-  const [mode, setMode] = useState<ThemeMode>(getInitialMode)
+  const [mode, setMode] = useState<ThemeMode>('light')
+  const [ready, setReady] = useState(false)
 
   useEffect(() => {
-    applyThemeMode(mode)
-  }, [mode])
+    const stored = readStoredMode()
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration-safe
+    setMode(stored)
+    applyThemeMode(stored)
+    setReady(true)
+  }, [])
 
   function toggleMode() {
     const nextMode: ThemeMode = mode === 'light' ? 'dark' : 'light'
@@ -37,9 +43,10 @@ export default function ThemeToggle() {
       onClick={toggleMode}
       aria-label={label}
       title={label}
+      suppressHydrationWarning
       className="rounded-full border border-[var(--chip-line)] bg-[var(--chip-bg)] px-3 py-1.5 text-sm font-semibold text-[var(--sea-ink)] shadow-[0_8px_22px_rgba(30,90,72,0.08)] transition hover:-translate-y-0.5"
     >
-      {mode === 'dark' ? '🌙 Escuro' : '☀️ Claro'}
+      {!ready ? '☀️ Claro' : mode === 'dark' ? '🌙 Escuro' : '☀️ Claro'}
     </button>
   )
 }
