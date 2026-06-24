@@ -7,14 +7,27 @@ import { fetchCursorChats } from './providers/cursor'
 import { fetchGrokChats } from './providers/grok'
 import { fetchOpenCodeChats } from './providers/opencode'
 
-export async function aggregateChats(paths: DataPaths): Promise<ChatSession[]> {
-  const [grok, codex, cursor] = await Promise.all([
-    fetchGrokChats(path.join(paths.grokHome, 'sessions')),
-    fetchCodexChats(paths.codexHome),
-    fetchCursorChats(path.join(paths.cursorHome, 'chats')),
-  ])
+async function safeFetch(
+  name: string,
+  fn: () => Promise<ChatSession[]>,
+): Promise<ChatSession[]> {
+  try {
+    return await fn()
+  } catch (err) {
+    console.error(`[aggregateChats] ${name} provider failed:`, err)
+    return []
+  }
+}
 
-  const opencode = fetchOpenCodeChats(path.join(paths.opencodeDataDir, 'opencode.db'))
+export async function aggregateChats(paths: DataPaths): Promise<ChatSession[]> {
+  const [grok, codex, cursor, opencode] = await Promise.all([
+    safeFetch('grok', () => fetchGrokChats(path.join(paths.grokHome, 'sessions'))),
+    safeFetch('codex', () => fetchCodexChats(paths.codexHome)),
+    safeFetch('cursor', () => fetchCursorChats(path.join(paths.cursorHome, 'chats'))),
+    safeFetch('opencode', async () =>
+      fetchOpenCodeChats(path.join(paths.opencodeDataDir, 'opencode.db')),
+    ),
+  ])
 
   return sortByUpdatedAt([...grok, ...codex, ...cursor, ...opencode])
 }

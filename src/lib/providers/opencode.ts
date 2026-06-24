@@ -10,9 +10,25 @@ interface OpenCodeRow {
   model: string | null
 }
 
+function openDatabase(dbPath: string): Database.Database {
+  try {
+    return new Database(dbPath, { readonly: true, fileMustExist: true })
+  } catch (firstErr) {
+    const deadline = Date.now() + 100
+    while (Date.now() < deadline) {
+      /* brief wait for lock release */
+    }
+    try {
+      return new Database(dbPath, { readonly: true, fileMustExist: true })
+    } catch {
+      throw firstErr
+    }
+  }
+}
+
 export function fetchOpenCodeChats(dbPath: string): ChatSession[] {
   try {
-    const db = new Database(dbPath, { readonly: true, fileMustExist: true })
+    const db = openDatabase(dbPath)
     const rows = db
       .prepare(
         `SELECT id, title, directory, time_created, time_updated, model

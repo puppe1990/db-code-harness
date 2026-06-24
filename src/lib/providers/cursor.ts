@@ -35,9 +35,26 @@ async function findStoreDbs(chatsDir: string): Promise<string[]> {
   return results
 }
 
+function openDatabase(dbPath: string): Database.Database {
+  try {
+    return new Database(dbPath, { readonly: true, fileMustExist: true })
+  } catch (firstErr) {
+    const deadline = Date.now() + 100
+    while (Date.now() < deadline) {
+      /* brief wait for lock release */
+    }
+    try {
+      return new Database(dbPath, { readonly: true, fileMustExist: true })
+    } catch {
+      throw firstErr
+    }
+  }
+}
+
 function parseStoreDb(dbPath: string): ChatSession | null {
   try {
-    const db = new Database(dbPath, { readonly: true, fileMustExist: true })
+    const chatId = path.basename(path.dirname(dbPath))
+    const db = openDatabase(dbPath)
     const row = db.prepare("SELECT value FROM meta WHERE key = '0'").get() as
       | { value: string }
       | undefined
@@ -48,7 +65,7 @@ function parseStoreDb(dbPath: string): ChatSession | null {
     const stat = fs.statSync(dbPath)
 
     return {
-      id: `cursor:${meta.agentId}`,
+      id: `cursor:${chatId}`,
       source: 'cursor',
       title: meta.name?.trim() || `Cursor ${meta.agentId.slice(0, 8)}`,
       createdAt: new Date(meta.createdAt ?? 0).toISOString(),

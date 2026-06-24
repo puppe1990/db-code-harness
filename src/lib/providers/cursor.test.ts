@@ -9,7 +9,7 @@ describe('fetchCursorChats', () => {
     const sessions = await fetchCursorChats(path.join(FIXTURE_ROOT, 'chats'))
     expect(sessions).toHaveLength(1)
     expect(sessions[0]).toMatchObject({
-      id: 'cursor:b76b26e9-09db-4a76-98ee-49ff46b09bad',
+      id: 'cursor:chat1',
       source: 'cursor',
       title: 'Sentiment Analyzer',
       createdAt: '2024-06-21T20:00:00.000Z',
