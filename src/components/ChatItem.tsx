@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router'
+import { toChatRouteParams } from '../lib/chat-id'
 import type { ChatSession } from '../lib/types'
 import { SourceBadge } from './SourceBadge'
 
@@ -13,11 +14,13 @@ function formatRelative(iso: string): string {
 }
 
 export function ChatItem({ chat }: { chat: ChatSession }) {
+  const { source, sessionId } = toChatRouteParams(chat.id)
+
   return (
     <li>
       <Link
-        to="/chat/$chatId"
-        params={{ chatId: chat.id }}
+        to="/chat/$source/$sessionId"
+        params={{ source, sessionId }}
         className="group flex items-start gap-4 rounded-lg border border-zinc-200 bg-white/80 px-4 py-3 shadow-sm transition hover:border-zinc-300 hover:bg-white no-underline dark:border-zinc-800 dark:bg-zinc-900/50 dark:shadow-none dark:hover:border-zinc-700 dark:hover:bg-zinc-900"
       >
         <div className="flex-1 min-w-0">

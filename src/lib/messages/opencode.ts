@@ -24,31 +24,37 @@ export function fetchOpenCodeMessages(
 ): ChatMessage[] {
   try {
     const db = openDatabase(dbPath)
-    const rows = db
+
+    const messages = db
       .prepare(
-        `SELECT m.id, m.data, GROUP_CONCAT(p.data, '|||') as parts
-         FROM message m
-         LEFT JOIN part p ON p.message_id = m.id
-         WHERE m.session_id = ?
-         GROUP BY m.id
-         ORDER BY m.time_created ASC`,
+        `SELECT id, data, time_created
+         FROM message
+         WHERE session_id = ?
+         ORDER BY time_created ASC`,
       )
-      .all(sessionId) as Array<{ id: string; data: string; parts: string | null }>
-    db.close()
+      .all(sessionId) as Array<{
+      id: string
+      data: string
+      time_created: number
+    }>
 
-    const messages: ChatMessage[] = []
+    const partsStmt = db.prepare(
+      `SELECT data FROM part WHERE message_id = ? ORDER BY time_created ASC`,
+    )
 
-    for (const row of rows) {
+    const result: ChatMessage[] = []
+
+    for (const row of messages) {
       try {
         const meta = JSON.parse(row.data)
         const role = meta.role
         if (role !== 'user' && role !== 'assistant') continue
 
-        const partChunks = (row.parts ?? '')
-          .split('|||')
+        const partRows = partsStmt.all(row.id) as Array<{ data: string }>
+        const partChunks = partRows
           .map((chunk) => {
             try {
-              return JSON.parse(chunk)
+              return JSON.parse(chunk.data)
             } catch {
               return null
             }
@@ -58,20 +64,21 @@ export function fetchOpenCodeMessages(
         const text = extractTextFromParts(partChunks)
         if (!text) continue
 
-        messages.push({
+        result.push({
           id: `opencode-msg-${row.id}`,
           role,
           content: text,
           timestamp: meta.time?.created
             ? new Date(meta.time.created).toISOString()
-            : undefined,
+            : new Date(row.time_created).toISOString(),
         })
       } catch {
         // skip malformed row
       }
     }
 
-    return messages
+    db.close()
+    return result
   } catch {
     return []
   }

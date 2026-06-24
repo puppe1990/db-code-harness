@@ -1,10 +1,14 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
+import { fromChatRouteParams } from '../lib/chat-id'
 import { getChatDetail } from '../server/chat-detail'
 import { MessageList } from '../components/MessageList'
 import { SourceBadge } from '../components/SourceBadge'
 
-export const Route = createFileRoute('/chat/$chatId')({
-  loader: ({ params }) => getChatDetail({ data: params.chatId }),
+export const Route = createFileRoute('/chat/$source/$sessionId')({
+  loader: ({ params }) =>
+    getChatDetail({
+      data: fromChatRouteParams(params.source, params.sessionId),
+    }),
   component: ChatDetailPage,
 })
 
