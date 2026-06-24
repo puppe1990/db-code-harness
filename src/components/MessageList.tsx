@@ -1,10 +1,14 @@
 import type { ChatMessage } from '../lib/types'
 
 const ROLE_STYLES: Record<ChatMessage['role'], string> = {
-  user: 'bg-zinc-800 border-zinc-700 ml-8',
-  assistant: 'bg-zinc-900/80 border-zinc-800 mr-8',
-  system: 'bg-zinc-900/40 border-zinc-800/50 text-zinc-500 text-sm',
-  tool: 'bg-zinc-900/40 border-zinc-800/50 text-zinc-500 text-xs font-mono',
+  user:
+    'bg-zinc-100 border-zinc-200 ml-8 dark:bg-zinc-800 dark:border-zinc-700',
+  assistant:
+    'bg-white border-zinc-200 mr-8 dark:bg-zinc-900/80 dark:border-zinc-800',
+  system:
+    'bg-zinc-50 border-zinc-200 text-zinc-500 text-sm dark:bg-zinc-900/40 dark:border-zinc-800/50',
+  tool:
+    'bg-zinc-50 border-zinc-200 text-zinc-500 text-xs font-mono dark:bg-zinc-900/40 dark:border-zinc-800/50',
 }
 
 const ROLE_LABELS: Record<ChatMessage['role'], string> = {
@@ -28,7 +32,7 @@ export function MessageList({ messages }: { messages: ChatMessage[] }) {
       {messages.map((msg) => (
         <li
           key={msg.id}
-          className={`rounded-lg border px-4 py-3 ${ROLE_STYLES[msg.role]}`}
+          className={`rounded-lg border px-4 py-3 shadow-sm dark:shadow-none ${ROLE_STYLES[msg.role]}`}
         >
           <p className="text-xs font-medium text-zinc-500 mb-1.5">
             {ROLE_LABELS[msg.role]}
@@ -38,7 +42,7 @@ export function MessageList({ messages }: { messages: ChatMessage[] }) {
               </span>
             )}
           </p>
-          <p className="text-sm text-zinc-200 whitespace-pre-wrap break-words">
+          <p className="text-sm text-zinc-800 whitespace-pre-wrap break-words dark:text-zinc-200">
             {msg.content}
           </p>
         </li>

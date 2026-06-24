@@ -13,10 +13,13 @@ function ChatDetailPage() {
 
   if (!detail) {
     return (
-      <main className="min-h-screen bg-zinc-950 text-zinc-100">
+      <main className="min-h-screen text-[var(--sea-ink)]">
         <div className="mx-auto max-w-3xl px-6 py-10">
-          <p className="text-zinc-500">Chat não encontrado.</p>
-          <Link to="/" className="text-sm text-zinc-400 hover:text-zinc-200 mt-4 inline-block">
+          <p className="text-[var(--sea-ink-soft)]">Chat não encontrado.</p>
+          <Link
+            to="/"
+            className="text-sm text-[var(--sea-ink-soft)] hover:text-[var(--sea-ink)] mt-4 inline-block"
+          >
             ← Voltar
           </Link>
         </div>
@@ -27,27 +30,29 @@ function ChatDetailPage() {
   const { session, messages } = detail
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+    <main className="min-h-screen text-[var(--sea-ink)]">
       <div className="mx-auto max-w-3xl px-6 py-10">
         <Link
           to="/"
-          className="text-sm text-zinc-500 hover:text-zinc-300 mb-6 inline-block"
+          className="text-sm text-[var(--sea-ink-soft)] hover:text-[var(--sea-ink)] mb-6 inline-block"
         >
           ← Todos os chats
         </Link>
 
-        <header className="mb-8 border-b border-zinc-800 pb-6">
+        <header className="mb-8 border-b border-[var(--line)] pb-6">
           <div className="flex items-center gap-2 mb-2">
             <SourceBadge source={session.source} />
-            <span className="text-xs text-zinc-500">
+            <span className="text-xs text-[var(--sea-ink-soft)]">
               {new Date(session.updatedAt).toLocaleString('pt-BR')}
             </span>
           </div>
           <h1 className="text-xl font-semibold tracking-tight">{session.title}</h1>
           {session.cwd && (
-            <p className="text-sm text-zinc-500 mt-1 truncate">{session.cwd}</p>
+            <p className="text-sm text-[var(--sea-ink-soft)] mt-1 truncate">{session.cwd}</p>
           )}
-          <p className="text-xs text-zinc-600 mt-2">{messages.length} mensagens</p>
+          <p className="text-xs text-[var(--sea-ink-soft)] mt-2 opacity-80">
+            {messages.length} mensagens
+          </p>
         </header>
 
         <MessageList messages={messages} />

@@ -10,11 +10,11 @@ export const Route = createFileRoute('/')({
 function Home() {
   const chats = Route.useLoaderData()
   return (
-    <main className="min-h-screen bg-zinc-950 text-zinc-100">
+    <main className="min-h-screen text-[var(--sea-ink)]">
       <div className="mx-auto max-w-3xl px-6 py-10">
         <header className="mb-8">
           <h1 className="text-2xl font-semibold tracking-tight">AI Chats</h1>
-          <p className="text-sm text-zinc-500 mt-1">
+          <p className="text-sm text-[var(--sea-ink-soft)] mt-1">
             Cursor, Grok, Codex & OpenCode — sorted by most recent
           </p>
         </header>
