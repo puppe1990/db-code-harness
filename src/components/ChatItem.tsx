@@ -12,7 +12,7 @@ export function ChatItem({ chat }: { chat: ChatSession }) {
       <Link
         to="/chat/$source/$sessionId"
         params={{ source, sessionId }}
-        className="group flex items-start gap-4 rounded-lg border border-zinc-200 bg-white/80 px-4 py-3 shadow-sm transition hover:border-zinc-300 hover:bg-white no-underline dark:border-zinc-800 dark:bg-zinc-900/50 dark:shadow-none dark:hover:border-zinc-700 dark:hover:bg-zinc-900"
+        className="group flex items-start gap-4 rounded-lg border border-zinc-200 bg-white/80 px-4 py-3 shadow-sm transition hover:border-zinc-300 hover:bg-white no-underline dark:border-zinc-800 dark:bg-zinc-900/50 dark:shadow-none dark:hover:border-zinc-700 dark:hover:bg-zinc-900 data-[status=pending]:border-[var(--lagoon)] data-[status=pending]:bg-[var(--hero-a)] data-[status=pending]:opacity-90"
       >
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">

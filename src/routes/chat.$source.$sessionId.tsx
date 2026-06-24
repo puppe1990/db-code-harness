@@ -1,9 +1,11 @@
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { fromChatRouteParams } from '../lib/chat-id'
 import { getChatDetail } from '../server/chat-detail'
+import { ChatDetailSkeleton } from '../components/ChatDetailSkeleton'
 import { ExportMarkdownButton } from '../components/ExportMarkdownButton'
 import { FormattedDate } from '../components/FormattedDate'
 import { MessageList } from '../components/MessageList'
+import { PageLoadingState } from '../components/PageLoadingState'
 import { SourceBadge } from '../components/SourceBadge'
 
 export const Route = createFileRoute('/chat/$source/$sessionId')({
@@ -11,8 +13,22 @@ export const Route = createFileRoute('/chat/$source/$sessionId')({
     getChatDetail({
       data: fromChatRouteParams(params.source, params.sessionId),
     }),
+  pendingMs: 100,
+  pendingMinMs: 300,
+  pendingComponent: ChatDetailPending,
   component: ChatDetailPage,
 })
+
+function ChatDetailPending() {
+  return (
+    <PageLoadingState
+      title="Abrindo chat..."
+      description="Carregando mensagens da sessão"
+    >
+      <ChatDetailSkeleton />
+    </PageLoadingState>
+  )
+}
 
 function ChatDetailPage() {
   const detail = Route.useLoaderData()

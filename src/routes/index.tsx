@@ -1,11 +1,31 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { getChats } from '../server/chats'
 import { ChatList } from '../components/ChatList'
+import { ChatListSkeleton } from '../components/ChatListSkeleton'
+import { PageLoadingState } from '../components/PageLoadingState'
 
 export const Route = createFileRoute('/')({
   loader: () => getChats(),
+  pendingMs: 150,
+  pendingMinMs: 400,
+  pendingComponent: HomePending,
   component: Home,
 })
+
+function HomePending() {
+  return (
+    <PageLoadingState
+      title="Carregando chats..."
+      description="Lendo sessões do Cursor, Grok, Codex, OpenCode e Claude Code"
+    >
+      <header className="mb-8">
+        <div className="h-8 w-40 rounded skeleton-shimmer mb-2" />
+        <div className="h-4 w-72 max-w-full rounded skeleton-shimmer" />
+      </header>
+      <ChatListSkeleton />
+    </PageLoadingState>
+  )
+}
 
 function Home() {
   const chats = Route.useLoaderData()
@@ -15,7 +35,7 @@ function Home() {
         <header className="mb-8">
           <h1 className="text-2xl font-semibold tracking-tight">AI Chats</h1>
           <p className="text-sm text-[var(--sea-ink-soft)] mt-1">
-            Cursor, Grok, Codex & OpenCode — sorted by most recent
+            Cursor, Grok, Codex, OpenCode & Claude Code — sorted by most recent
           </p>
         </header>
         <ChatList chats={chats} />

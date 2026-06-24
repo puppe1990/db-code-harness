@@ -1,5 +1,6 @@
 import type { DataPaths } from '../config'
 import type { ChatDetail, ChatMessage, ChatSession } from '../types'
+import { fetchClaudeMessages } from './claude'
 import { fetchCodexMessages, findCodexRolloutById } from './codex'
 import { fetchCursorMessages } from './cursor'
 import { fetchGrokMessages } from './grok'
@@ -33,6 +34,8 @@ async function loadMessages(
       return fetchCursorMessages(storagePath)
     case 'opencode':
       return fetchOpenCodeMessages(storagePath, session.id.slice(9))
+    case 'claude':
+      return fetchClaudeMessages(storagePath)
     default:
       return []
   }

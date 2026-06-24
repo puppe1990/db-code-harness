@@ -18,6 +18,7 @@ describe('getDataPaths', () => {
     expect(paths.grokHome).toBe('/Users/test/.grok')
     expect(paths.codexHome).toBe('/Users/test/.codex')
     expect(paths.opencodeDataDir).toBe('/Users/test/.local/share/opencode')
+    expect(paths.claudeHome).toBe('/Users/test/.claude')
   })
 
   it('respects env overrides', () => {

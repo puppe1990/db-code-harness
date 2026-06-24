@@ -1,6 +1,6 @@
 import type { ChatSource } from './types'
 
-const SOURCES: ChatSource[] = ['cursor', 'grok', 'codex', 'opencode']
+const SOURCES: ChatSource[] = ['cursor', 'grok', 'codex', 'opencode', 'claude']
 
 export function toChatRouteParams(chatId: string): {
   source: ChatSource
