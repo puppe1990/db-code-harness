@@ -42,6 +42,8 @@ describe('extractCodexTitleFromRollout', () => {
       FIXTURE_DIR,
       'archived_sessions/rollout-2026-04-01T13-29-09-019d49e0-9893-76c0-b51e-094cae8d855c.jsonl',
     )
-    expect(await extractCodexTitleFromRollout(rollout)).toBe('Sessão só no disco do Codex')
+    expect(await extractCodexTitleFromRollout(rollout)).toBe(
+      'Sessão só no disco do Codex',
+    )
   })
 })

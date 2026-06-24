@@ -1,14 +1,11 @@
 import type { ChatMessage } from '../lib/types'
 
 const ROLE_STYLES: Record<ChatMessage['role'], string> = {
-  user:
-    'bg-zinc-100 border-zinc-200 ml-8 dark:bg-zinc-800 dark:border-zinc-700',
-  assistant:
-    'bg-white border-zinc-200 mr-8 dark:bg-zinc-900/80 dark:border-zinc-800',
+  user: 'bg-zinc-100 border-zinc-200 ml-8 dark:bg-zinc-800 dark:border-zinc-700',
+  assistant: 'bg-white border-zinc-200 mr-8 dark:bg-zinc-900/80 dark:border-zinc-800',
   system:
     'bg-zinc-50 border-zinc-200 text-zinc-500 text-sm dark:bg-zinc-900/40 dark:border-zinc-800/50',
-  tool:
-    'bg-zinc-50 border-zinc-200 text-zinc-500 text-xs font-mono dark:bg-zinc-900/40 dark:border-zinc-800/50',
+  tool: 'bg-zinc-50 border-zinc-200 text-zinc-500 text-xs font-mono dark:bg-zinc-900/40 dark:border-zinc-800/50',
 }
 
 const ROLE_LABELS: Record<ChatMessage['role'], string> = {

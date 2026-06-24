@@ -10,8 +10,7 @@ interface CodexIndexEntry {
 
 const ROLLOUT_UUID_RE =
   /([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\.jsonl$/i
-const ROLLOUT_TS_RE =
-  /rollout-(\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2})-/i
+const ROLLOUT_TS_RE = /rollout-(\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2})-/i
 
 function parseRolloutTimestamp(filename: string): string | undefined {
   const match = filename.match(ROLLOUT_TS_RE)

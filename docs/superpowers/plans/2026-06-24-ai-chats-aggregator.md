@@ -15,6 +15,7 @@
 ### Task 1: Scaffold TanStack Start + Tailwind + Vitest
 
 **Files:**
+
 - Create: project root via CLI
 - Modify: `package.json`, `vite.config.ts`, `vitest.config.ts`
 
@@ -82,6 +83,7 @@ git commit -m "chore: scaffold tanstack start with tailwind and vitest"
 ### Task 2: Core Types + Sort (TDD)
 
 **Files:**
+
 - Create: `src/lib/types.ts`
 - Create: `src/lib/sort.ts`
 - Create: `src/lib/sort.test.ts`
@@ -177,6 +179,7 @@ git commit -m "feat: add ChatSession type and sortByUpdatedAt"
 ### Task 3: Config Module (TDD)
 
 **Files:**
+
 - Create: `src/lib/config.ts`
 - Create: `src/lib/config.test.ts`
 
@@ -262,6 +265,7 @@ git commit -m "feat: add configurable data paths"
 ### Task 4: Grok Provider (TDD)
 
 **Files:**
+
 - Create: `src/lib/providers/grok.ts`
 - Create: `src/lib/providers/grok.test.ts`
 - Create: `src/lib/providers/__fixtures__/grok/sessions/%2Ftest%2Fproject/session-1/summary.json`
@@ -404,6 +408,7 @@ git commit -m "feat: add grok chat provider"
 ### Task 5: OpenCode Provider (TDD)
 
 **Files:**
+
 - Create: `src/lib/providers/opencode.ts`
 - Create: `src/lib/providers/opencode.test.ts`
 - Create: `src/lib/providers/__fixtures__/opencode/opencode.db` (copy minimal schema + 2 rows)
@@ -531,6 +536,7 @@ git commit -m "feat: add opencode chat provider"
 ### Task 6: Codex Provider (TDD)
 
 **Files:**
+
 - Create: `src/lib/providers/codex.ts`
 - Create: `src/lib/providers/codex.test.ts`
 - Create: `src/lib/providers/__fixtures__/codex/session_index.jsonl`
@@ -635,6 +641,7 @@ git commit -m "feat: add codex chat provider"
 ### Task 7: Cursor Provider (TDD)
 
 **Files:**
+
 - Create: `src/lib/providers/cursor.ts`
 - Create: `src/lib/providers/cursor.test.ts`
 - Create: `src/lib/providers/__fixtures__/cursor/chats/workspace1/chat1/store.db`
@@ -783,6 +790,7 @@ git commit -m "feat: add cursor chat provider"
 ### Task 8: Aggregator (TDD)
 
 **Files:**
+
 - Create: `src/lib/aggregator.ts`
 - Create: `src/lib/aggregator.test.ts`
 
@@ -796,12 +804,24 @@ import type { ChatSession } from './types'
 
 vi.mock('./providers/grok', () => ({
   fetchGrokChats: vi.fn().mockResolvedValue([
-    { id: 'grok:1', source: 'grok', title: 'Grok chat', createdAt: '2026-06-24T10:00:00Z', updatedAt: '2026-06-24T12:00:00Z' },
+    {
+      id: 'grok:1',
+      source: 'grok',
+      title: 'Grok chat',
+      createdAt: '2026-06-24T10:00:00Z',
+      updatedAt: '2026-06-24T12:00:00Z',
+    },
   ] satisfies ChatSession[]),
 }))
 vi.mock('./providers/codex', () => ({
   fetchCodexChats: vi.fn().mockResolvedValue([
-    { id: 'codex:1', source: 'codex', title: 'Codex chat', createdAt: '2026-06-24T08:00:00Z', updatedAt: '2026-06-24T14:00:00Z' },
+    {
+      id: 'codex:1',
+      source: 'codex',
+      title: 'Codex chat',
+      createdAt: '2026-06-24T08:00:00Z',
+      updatedAt: '2026-06-24T14:00:00Z',
+    },
   ] satisfies ChatSession[]),
 }))
 vi.mock('./providers/opencode', () => ({
@@ -809,7 +829,13 @@ vi.mock('./providers/opencode', () => ({
 }))
 vi.mock('./providers/cursor', () => ({
   fetchCursorChats: vi.fn().mockResolvedValue([
-    { id: 'cursor:1', source: 'cursor', title: 'Cursor chat', createdAt: '2026-06-24T06:00:00Z', updatedAt: '2026-06-24T11:00:00Z' },
+    {
+      id: 'cursor:1',
+      source: 'cursor',
+      title: 'Cursor chat',
+      createdAt: '2026-06-24T06:00:00Z',
+      updatedAt: '2026-06-24T11:00:00Z',
+    },
   ] satisfies ChatSession[]),
 }))
 
@@ -875,6 +901,7 @@ git commit -m "feat: add chat aggregator"
 ### Task 9: Server Function
 
 **Files:**
+
 - Create: `src/server/chats.ts`
 
 - [ ] **Step 1: Write server function**
@@ -909,6 +936,7 @@ git commit -m "feat: add getChats server function"
 ### Task 10: UI Components
 
 **Files:**
+
 - Create: `src/components/SourceBadge.tsx`
 - Create: `src/components/ChatItem.tsx`
 - Create: `src/components/ChatList.tsx`
@@ -930,7 +958,9 @@ const COLORS: Record<ChatSource, string> = {
 
 export function SourceBadge({ source }: { source: ChatSource }) {
   return (
-    <span className={`inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium ${COLORS[source]}`}>
+    <span
+      className={`inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium ${COLORS[source]}`}
+    >
       {SOURCE_LABELS[source]}
     </span>
   )
@@ -960,7 +990,9 @@ export function ChatItem({ chat }: { chat: ChatSession }) {
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
           <SourceBadge source={chat.source} />
-          <span className="text-xs text-zinc-500">{formatRelative(chat.updatedAt)}</span>
+          <span className="text-xs text-zinc-500">
+            {formatRelative(chat.updatedAt)}
+          </span>
         </div>
         <p className="font-medium text-zinc-100 truncate">{chat.title}</p>
         {chat.cwd && (
@@ -968,7 +1000,9 @@ export function ChatItem({ chat }: { chat: ChatSession }) {
         )}
       </div>
       {chat.messageCount != null && (
-        <span className="text-xs text-zinc-600 tabular-nums">{chat.messageCount} msgs</span>
+        <span className="text-xs text-zinc-600 tabular-nums">
+          {chat.messageCount} msgs
+        </span>
       )}
     </li>
   )
@@ -996,7 +1030,10 @@ export function ChatList({ chats }: { chats: ChatSession[] }) {
   )
 
   const counts = useMemo(() => {
-    const map = Object.fromEntries(ALL_SOURCES.map((s) => [s, 0])) as Record<ChatSource, number>
+    const map = Object.fromEntries(ALL_SOURCES.map((s) => [s, 0])) as Record<
+      ChatSource,
+      number
+    >
     for (const c of chats) map[c.source]++
     return map
   }, [chats])
@@ -1103,17 +1140,17 @@ git commit -m "chore: verify full test suite and production build"
 
 ## Self-Review Checklist
 
-| Requirement | Task |
-|-------------|------|
-| TanStack Start | Task 1 |
-| Tailwind | Task 1 |
-| Cursor chats | Task 7 |
-| Grok chats | Task 4 |
-| Codex chats | Task 6 |
-| OpenCode chats | Task 5 |
-| Sort by newest | Task 2 + Task 8 |
-| TDD (tests before impl) | All provider tasks |
-| Local app | Task 9 (server fn reads local FS) |
+| Requirement             | Task                              |
+| ----------------------- | --------------------------------- |
+| TanStack Start          | Task 1                            |
+| Tailwind                | Task 1                            |
+| Cursor chats            | Task 7                            |
+| Grok chats              | Task 4                            |
+| Codex chats             | Task 6                            |
+| OpenCode chats          | Task 5                            |
+| Sort by newest          | Task 2 + Task 8                   |
+| TDD (tests before impl) | All provider tasks                |
+| Local app               | Task 9 (server fn reads local FS) |
 
 ## Execution Options
 

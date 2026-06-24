@@ -9,7 +9,11 @@ export function extractTextFromParts(
   for (const part of parts) {
     if (!part.text?.trim()) continue
     if (part.type === 'tool_use' || part.type === 'tool-result') continue
-    if (part.type === 'text' || part.type === 'input_text' || part.type === 'output_text') {
+    if (
+      part.type === 'text' ||
+      part.type === 'input_text' ||
+      part.type === 'output_text'
+    ) {
       chunks.push(part.text.trim())
     }
   }

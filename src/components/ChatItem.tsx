@@ -23,9 +23,13 @@ export function ChatItem({ chat }: { chat: ChatSession }) {
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
             <SourceBadge source={chat.source} />
-            <span className="text-xs text-zinc-500">{formatRelative(chat.updatedAt)}</span>
+            <span className="text-xs text-zinc-500">
+              {formatRelative(chat.updatedAt)}
+            </span>
           </div>
-          <p className="font-medium text-zinc-900 truncate dark:text-zinc-100">{chat.title}</p>
+          <p className="font-medium text-zinc-900 truncate dark:text-zinc-100">
+            {chat.title}
+          </p>
           {chat.cwd && (
             <p className="text-xs text-zinc-500 truncate mt-0.5">{chat.cwd}</p>
           )}
