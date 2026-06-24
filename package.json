@@ -1,6 +1,9 @@
 {
   "name": "db-code-harness",
-  "private": true,
+  "version": "0.1.0",
+  "description": "Local aggregator for Cursor, Grok, Codex, and OpenCode chat sessions",
+  "license": "MIT",
+  "private": false,
   "type": "module",
   "imports": {
     "#/*": "./src/*"
