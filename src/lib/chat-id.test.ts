@@ -14,4 +14,14 @@ describe('chat-id route helpers', () => {
       'opencode:ses_10f6ac97bffeW0GdEvduSLGMSP',
     )
   })
+
+  it('supports claude source ids', () => {
+    expect(toChatRouteParams('claude:59d60b82-b957-48e6-adff-c1cfd70a2470')).toEqual({
+      source: 'claude',
+      sessionId: '59d60b82-b957-48e6-adff-c1cfd70a2470',
+    })
+    expect(fromChatRouteParams('claude', '59d60b82-b957-48e6-adff-c1cfd70a2470')).toBe(
+      'claude:59d60b82-b957-48e6-adff-c1cfd70a2470',
+    )
+  })
 })
