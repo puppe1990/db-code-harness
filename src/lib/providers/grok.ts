@@ -52,6 +52,7 @@ export async function fetchGrokChats(sessionsDir: string): Promise<ChatSession[]
         updatedAt: data.updated_at ?? data.created_at ?? new Date(0).toISOString(),
         messageCount: data.num_messages,
         model: data.current_model_id,
+        storagePath: path.dirname(file),
       })
     } catch {
       // skip malformed

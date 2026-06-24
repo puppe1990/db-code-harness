@@ -70,6 +70,7 @@ function parseStoreDb(dbPath: string): ChatSession | null {
       title: meta.name?.trim() || `Cursor ${meta.agentId.slice(0, 8)}`,
       createdAt: new Date(meta.createdAt ?? 0).toISOString(),
       updatedAt: new Date(stat.mtimeMs).toISOString(),
+      storagePath: dbPath,
     }
   } catch {
     return null

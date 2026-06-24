@@ -9,6 +9,22 @@ export interface ChatSession {
   updatedAt: string
   messageCount?: number
   model?: string
+  /** Path to primary data file/dir for loading messages */
+  storagePath?: string
+}
+
+export type ChatMessageRole = 'user' | 'assistant' | 'system' | 'tool'
+
+export interface ChatMessage {
+  id: string
+  role: ChatMessageRole
+  content: string
+  timestamp?: string
+}
+
+export interface ChatDetail {
+  session: ChatSession
+  messages: ChatMessage[]
 }
 
 export const SOURCE_LABELS: Record<ChatSource, string> = {

@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import type { ChatSession } from '../lib/types'
 import { SourceBadge } from './SourceBadge'
 
@@ -13,7 +14,12 @@ function formatRelative(iso: string): string {
 
 export function ChatItem({ chat }: { chat: ChatSession }) {
   return (
-    <li className="group flex items-start gap-4 rounded-lg border border-zinc-800 bg-zinc-900/50 px-4 py-3 transition hover:border-zinc-700 hover:bg-zinc-900">
+    <li>
+      <Link
+        to="/chat/$chatId"
+        params={{ chatId: chat.id }}
+        className="group flex items-start gap-4 rounded-lg border border-zinc-800 bg-zinc-900/50 px-4 py-3 transition hover:border-zinc-700 hover:bg-zinc-900 no-underline"
+      >
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
           <SourceBadge source={chat.source} />
@@ -27,6 +33,7 @@ export function ChatItem({ chat }: { chat: ChatSession }) {
       {chat.messageCount != null && (
         <span className="text-xs text-zinc-600 tabular-nums">{chat.messageCount} msgs</span>
       )}
+      </Link>
     </li>
   )
 }

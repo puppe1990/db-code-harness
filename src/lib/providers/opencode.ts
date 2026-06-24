@@ -45,6 +45,7 @@ export function fetchOpenCodeChats(dbPath: string): ChatSession[] {
       createdAt: new Date(row.time_created).toISOString(),
       updatedAt: new Date(row.time_updated).toISOString(),
       model: row.model ?? undefined,
+      storagePath: dbPath,
     }))
   } catch {
     return []
