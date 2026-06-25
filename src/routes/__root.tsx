@@ -1,6 +1,8 @@
 import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
+import { AppReadyGate } from '../components/AppReadyGate'
+import { STARTUP_LOADER_CRITICAL_CSS, STARTUP_LOADER_HTML } from '../lib/startup-loader'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 
@@ -37,12 +39,15 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+        <style dangerouslySetInnerHTML={{ __html: STARTUP_LOADER_CRITICAL_CSS }} />
         <HeadContent />
       </head>
       <body
         className="font-sans antialiased [overflow-wrap:anywhere] selection:bg-[rgba(79,184,178,0.24)]"
         suppressHydrationWarning
       >
+        <div dangerouslySetInnerHTML={{ __html: STARTUP_LOADER_HTML }} />
+        <AppReadyGate />
         <Header />
         {children}
         <Footer />
