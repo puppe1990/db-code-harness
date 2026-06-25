@@ -1,28 +1,34 @@
 'use client'
 
+import { useState } from 'react'
 import { RefreshCw } from 'lucide-react'
 import { useRouter, useRouterState } from '@tanstack/react-router'
 
 function isRouteRefreshing(state: {
   isLoading: boolean
-  status: string
   matches: Array<{ isFetching: false | 'beforeLoad' | 'loader' }>
 }) {
-  return (
-    state.isLoading ||
-    state.status === 'pending' ||
-    state.matches.some((match) => match.isFetching === 'loader')
-  )
+  return state.isLoading || state.matches.some((match) => match.isFetching === 'loader')
 }
 
 export function RefreshButton() {
   const router = useRouter()
-  const isRefreshing = useRouterState({
+  const [isManualRefresh, setIsManualRefresh] = useState(false)
+  const isRouterRefreshing = useRouterState({
     select: isRouteRefreshing,
   })
+  const isRefreshing = isManualRefresh || isRouterRefreshing
 
-  function handleRefresh() {
-    void router.invalidate({ forcePending: true })
+  async function handleRefresh() {
+    setIsManualRefresh(true)
+    try {
+      await router.invalidate({
+        // forcePending on __root__ leaves the shell stuck with no loader to finish.
+        filter: (match) => match.routeId !== '__root__',
+      })
+    } finally {
+      setIsManualRefresh(false)
+    }
   }
 
   const label = isRefreshing ? 'Atualizando...' : 'Atualizar dados'
@@ -30,7 +36,7 @@ export function RefreshButton() {
   return (
     <button
       type="button"
-      onClick={handleRefresh}
+      onClick={() => void handleRefresh()}
       disabled={isRefreshing}
       aria-label={label}
       title={label}
