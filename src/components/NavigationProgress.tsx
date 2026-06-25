@@ -4,7 +4,10 @@ import { useRouterState } from '@tanstack/react-router'
 
 export function NavigationProgress() {
   const isPending = useRouterState({
-    select: (state) => state.status === 'pending',
+    select: (state) =>
+      state.isLoading ||
+      state.status === 'pending' ||
+      state.matches.some((match) => match.isFetching === 'loader'),
   })
 
   if (!isPending) return null

@@ -6,6 +6,8 @@ import { PageLoadingState } from '../components/PageLoadingState'
 
 export const Route = createFileRoute('/')({
   loader: () => getChats(),
+  staleTime: 0,
+  staleReloadMode: 'blocking',
   pendingMs: 150,
   pendingMinMs: 400,
   pendingComponent: HomePending,
