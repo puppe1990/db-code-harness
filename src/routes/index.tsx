@@ -32,7 +32,7 @@ function HomePending() {
 function Home() {
   const chats = Route.useLoaderData()
   return (
-    <main className="min-h-screen text-[var(--sea-ink)]">
+    <main className="min-h-screen pb-24 text-[var(--sea-ink)]">
       <div className="mx-auto max-w-3xl px-6 py-10">
         <header className="mb-8">
           <h1 className="text-2xl font-semibold tracking-tight">AI Chats</h1>

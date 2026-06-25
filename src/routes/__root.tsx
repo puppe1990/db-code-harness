@@ -2,7 +2,11 @@ import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import { AppReadyGate } from '../components/AppReadyGate'
-import { STARTUP_LOADER_CRITICAL_CSS, STARTUP_LOADER_HTML } from '../lib/startup-loader'
+import {
+  STARTUP_LOADER_CRITICAL_CSS,
+  STARTUP_LOADER_DISMISS_SCRIPT,
+  STARTUP_LOADER_HTML,
+} from '../lib/startup-loader'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 
@@ -40,6 +44,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
         <style dangerouslySetInnerHTML={{ __html: STARTUP_LOADER_CRITICAL_CSS }} />
+        <script dangerouslySetInnerHTML={{ __html: STARTUP_LOADER_DISMISS_SCRIPT }} />
         <HeadContent />
       </head>
       <body

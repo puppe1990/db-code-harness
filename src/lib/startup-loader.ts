@@ -1,3 +1,20 @@
+export function dismissStartupLoader() {
+  if (typeof document === 'undefined') return false
+
+  const loader = document.getElementById('app-startup-loader')
+  if (!loader || loader.dataset.dismissed === 'true') return false
+
+  loader.dataset.dismissed = 'true'
+  loader.classList.add('startup-loader--hide')
+  document.documentElement.setAttribute('data-app-ready', 'true')
+
+  window.setTimeout(() => {
+    loader.remove()
+  }, 320)
+
+  return true
+}
+
 export const STARTUP_LOADER_HTML = `
   <div id="app-startup-loader" class="startup-loader" aria-live="polite" aria-busy="true" aria-label="Carregando AI Chats">
     <div class="startup-loader__card">
@@ -6,6 +23,53 @@ export const STARTUP_LOADER_HTML = `
       <p class="startup-loader__subtitle">Carregando sessões do Cursor, Grok, Codex, OpenCode e Claude Code…</p>
     </div>
   </div>
+`.trim()
+
+export const STARTUP_LOADER_DISMISS_SCRIPT = `
+(function () {
+  function dismissStartupLoader() {
+    var loader = document.getElementById('app-startup-loader')
+    if (!loader || loader.dataset.dismissed === 'true') return
+    loader.dataset.dismissed = 'true'
+    loader.classList.add('startup-loader--hide')
+    document.documentElement.setAttribute('data-app-ready', 'true')
+    window.setTimeout(function () {
+      loader.remove()
+    }, 320)
+  }
+
+  function hasAppContent() {
+    var main = document.querySelector('main')
+    return !!(main && main.innerText.trim().length > 0)
+  }
+
+  function check() {
+    if (hasAppContent()) dismissStartupLoader()
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', check)
+  } else {
+    check()
+  }
+
+  window.addEventListener('load', check)
+
+  var observer = new MutationObserver(check)
+  function observe() {
+    if (!document.body) return
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    })
+  }
+
+  if (document.body) observe()
+  else document.addEventListener('DOMContentLoaded', observe)
+
+  window.setTimeout(dismissStartupLoader, 45000)
+})()
 `.trim()
 
 export const STARTUP_LOADER_CRITICAL_CSS = `
@@ -23,10 +87,14 @@ export const STARTUP_LOADER_CRITICAL_CSS = `
       linear-gradient(180deg, #edf5ef 0%, #e7f3ec 44%, #dfeee8 100%);
     transition: opacity 0.3s ease, visibility 0.3s ease;
   }
-  .startup-loader--hide {
+  .startup-loader--hide,
+  html[data-app-ready='true'] #app-startup-loader {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
+  }
+  html[data-app-ready='true'] #app-startup-loader {
+    display: none !important;
   }
   .startup-loader__card {
     display: flex;

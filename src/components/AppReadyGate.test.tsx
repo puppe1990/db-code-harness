@@ -9,7 +9,6 @@ let bootstrapping = true
 vi.mock('@tanstack/react-router', () => ({
   useRouterState: ({ select }: { select: (state: unknown) => boolean }) =>
     select({
-      isLoading: bootstrapping,
       matches: bootstrapping
         ? [{ routeId: '/', status: 'pending', isFetching: 'loader' as const }]
         : [{ routeId: '/', status: 'success', isFetching: false as const }],

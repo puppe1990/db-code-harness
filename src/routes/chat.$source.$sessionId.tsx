@@ -37,7 +37,7 @@ function ChatDetailPage() {
 
   if (!detail) {
     return (
-      <main className="min-h-screen text-[var(--sea-ink)]">
+      <main className="min-h-screen pb-24 text-[var(--sea-ink)]">
         <div className="mx-auto max-w-3xl px-6 py-10">
           <p className="text-[var(--sea-ink-soft)]">Chat não encontrado.</p>
           <Link
@@ -54,7 +54,7 @@ function ChatDetailPage() {
   const { session, messages } = detail
 
   return (
-    <main className="min-h-screen text-[var(--sea-ink)]">
+    <main className="min-h-screen pb-24 text-[var(--sea-ink)]">
       <div className="mx-auto max-w-3xl px-6 py-10">
         <Link
           to="/"
