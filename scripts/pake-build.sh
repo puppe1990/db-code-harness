@@ -67,3 +67,7 @@ echo "Launch with: npm run pake:launch"
 if [ -d "$ROOT_DIR/$AI_CHATS_APP_NAME.app" ]; then
   echo "App bundle: $ROOT_DIR/$AI_CHATS_APP_NAME.app"
 fi
+
+if [ "$(uname -s)" = "Darwin" ]; then
+  bash "$SCRIPT_DIR/install-desktop-shortcut.sh"
+fi
