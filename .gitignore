@@ -11,3 +11,6 @@ dist-ssr
 .vinxi
 __unconfig*
 todos.json
+.ai-chats/
+AI Chats.app
+AI Chats.dmg

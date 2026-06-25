@@ -44,13 +44,57 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Scripts
 
-| Command              | Description                   |
-| -------------------- | ----------------------------- |
-| `npm run dev`        | Start dev server on port 3000 |
-| `npm run build`      | Production build              |
-| `npm run preview`    | Preview production build      |
-| `npm test`           | Run Vitest test suite         |
-| `npm run test:watch` | Run tests in watch mode       |
+| Command               | Description                       |
+| --------------------- | --------------------------------- |
+| `npm run dev`         | Start dev server on port 3000     |
+| `npm run build`       | Production build                  |
+| `npm run start`       | Run production server             |
+| `npm run preview`     | Preview production build          |
+| `npm run pake`        | Build macOS/Linux desktop app     |
+| `npm run pake:launch` | Start server and open desktop app |
+| `npm run pake:stop`   | Stop background desktop server    |
+| `npm test`            | Run Vitest test suite             |
+| `npm run test:watch`  | Run tests in watch mode           |
+
+## Desktop app (Pake)
+
+Turn the local web UI into a lightweight desktop app with [Pake](https://github.com/tw93/Pake).
+
+**Prerequisites:** Node.js 22+, Rust (installed automatically by Pake on first run), and `pake-cli`:
+
+```bash
+pnpm install -g pake-cli
+# or: npx pake-cli
+```
+
+**Build the app:**
+
+```bash
+npm run pake
+```
+
+This builds the project, starts a temporary local server, and generates `AI Chats.app` in the project root (macOS).
+
+**Launch like a native app:**
+
+```bash
+npm run pake:launch
+```
+
+This starts the production server in the background (if needed) and opens the desktop app pointing to `http://127.0.0.1:3847` (dedicated port, separate from `npm run dev` on 3000).
+
+**Stop the background server:**
+
+```bash
+npm run pake:stop
+```
+
+Optional env vars:
+
+```env
+AI_CHATS_PORT=3847
+AI_CHATS_APP_NAME=AI Chats
+```
 
 ## Configuration
 
@@ -61,6 +105,7 @@ CURSOR_HOME=~/.cursor
 GROK_HOME=~/.grok
 CODEX_HOME=~/.codex
 OPENCODE_DATA_DIR=~/.local/share/opencode
+CLAUDE_HOME=~/.claude
 ```
 
 ## Architecture
